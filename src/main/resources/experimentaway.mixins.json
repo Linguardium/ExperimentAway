@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "mod.linguardium.experimentaway.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+
+  ],
+  "client": [
+    "MoreOptionsDialogMixin", "MinecraftClientMixin"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
