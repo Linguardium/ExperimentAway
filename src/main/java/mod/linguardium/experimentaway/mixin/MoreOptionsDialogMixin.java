@@ -3,18 +3,19 @@ package mod.linguardium.experimentaway.mixin;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.client.gui.screen.world.MoreOptionsDialog;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(MoreOptionsDialog.class)
 public class MoreOptionsDialogMixin {
 
-    @Redirect(at=@At(value="INVOKE",target="com/mojang/serialization/DataResult.lifecycle()Lcom/mojang/serialization/Lifecycle;"),method="method_29071")
-    private Lifecycle returnIsStable(DataResult dataResult) {
-        Lifecycle ret = dataResult.lifecycle();
-        if (ret.equals(Lifecycle.experimental()))
+    @ModifyVariable(at=@At(value="FIELD",target="Lnet/minecraft/client/gui/screen/world/MoreOptionsDialog;field_25046:Lorg/apache/logging/log4j/Logger;", opcode = Opcodes.GETSTATIC),method="method_29071(Lnet/minecraft/client/gui/screen/world/CreateWorldScreen;Lnet/minecraft/client/MinecraftClient;Lnet/minecraft/client/gui/widget/ButtonWidget;)V", name="lifecycle")
+    private Lifecycle returnIsStable(Lifecycle lifecycle) {
+        if (lifecycle.equals(Lifecycle.experimental()))
             return Lifecycle.stable();
-        return ret;
+        return lifecycle;
     }
 }
