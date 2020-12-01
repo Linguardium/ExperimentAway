@@ -9,8 +9,14 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(MoreOptionsDialog.class)
 public class MoreOptionsDialogMixin {
-
-    @ModifyVariable(at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screen/world/MoreOptionsDialog;field_25046:Lorg/apache/logging/log4j/Logger;", opcode = Opcodes.GETSTATIC), method = "method_29071", name = "lifecycle")
+    @SuppressWarnings("UnresolvedMixinReference")
+    @ModifyVariable(method = "method_29071",
+                    at = @At(value = "FIELD",
+                             target = "Lnet/minecraft/client/gui/screen/world/MoreOptionsDialog;field_25046:Lorg/apache/logging/log4j/Logger;",
+                             opcode = Opcodes.GETSTATIC),
+                    ordinal = 0,
+                    index = 12,
+                    name = "lifecycle")
     private Lifecycle returnIsStable(Lifecycle lifecycle) {
         if (lifecycle.equals(Lifecycle.experimental())) {
             return Lifecycle.stable();
